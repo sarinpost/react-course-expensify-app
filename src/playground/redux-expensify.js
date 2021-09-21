@@ -4,7 +4,7 @@ import { createStore, combineReducers } from "redux";
 // ADD_EXPENSE
 const addExpense = (
     {
-        descripton = '',
+        description = '',
         note = '',
         amount = 0,
         createAt = 0
@@ -13,7 +13,7 @@ const addExpense = (
     type: 'ADD_EXPENSE',
     expense: {
         id: uuid(),
-        descripton,
+        description,
         note,
         amount,
         createAt
@@ -123,7 +123,7 @@ const getVisibleExpenses = (expense, { text, sortBy, startDate, endDate }) => {
     return expense.filter((expense) => {
         const startDateMatch = typeof startDate !== 'number' || expense.createAt >= startDate;
         const endDateMatch = typeof endDate !== 'number' || expense.createAt <= endDate;
-        const textMatch = typeof text != 'string' || expense.descripton.toLowerCase().includes(text.toLowerCase());
+        const textMatch = typeof text != 'string' || expense.description.toLowerCase().includes(text.toLowerCase());
         return startDateMatch && endDateMatch && textMatch
     }).sort((a, b) => {
         if (sortBy === 'date') {
@@ -148,8 +148,8 @@ store.subscribe(() => {
     console.log(visibleExpenses);
 })
 
-const expenseOne = store.dispatch(addExpense({ descripton: 'Rent', amount: 5000, createAt: -21000 }))
-const expenseTwo = store.dispatch(addExpense({ descripton: 'Coffee', amount: 300, createAt: -1000 }))
+const expenseOne = store.dispatch(addExpense({ description: 'Rent', amount: 5000, createAt: -21000 }))
+const expenseTwo = store.dispatch(addExpense({ description: 'Coffee', amount: 300, createAt: -1000 }))
 
 // store.dispatch(removeExpense({ id: expenseOne.expense.id }))
 // store.dispatch(editExpense(expenseTwo.expense.id, { amount: 500 }))
@@ -168,7 +168,7 @@ store.dispatch(sortByAmount())
 const demoState = {
     expenses: [{
         id: 'asdas',
-        descripton: 'January Rent',
+        description: 'January Rent',
         note: 'This was the final payment',
         amount: 55450,
         createAt: 0,
