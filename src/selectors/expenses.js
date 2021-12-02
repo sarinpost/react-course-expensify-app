@@ -1,8 +1,12 @@
+import expenses from "../reducers/expenses";
+import moment from "moment";
+
 // get visible expense
 export default (expense, { text, sortBy, startDate, endDate }) => {
     return expense.filter((expense) => {
-        const startDateMatch = typeof startDate !== 'number' || expense.createAt >= startDate;
-        const endDateMatch = typeof endDate !== 'number' || expense.createAt <= endDate;
+        const createAtMoment = moment(expense.createAt)
+        const startDateMatch = startDate ? startDate.isSameOrBefore(createAtMoment, 'day') : true
+        const endDateMatch = endDate ? endDate.isSameOrAfter(createAtMoment, 'day') : true
         const textMatch = typeof text != 'string' || expense.description.toLowerCase().includes(text.toLowerCase());
         return startDateMatch && endDateMatch && textMatch
     }).sort((a, b) => {
@@ -12,4 +16,4 @@ export default (expense, { text, sortBy, startDate, endDate }) => {
             return a.amount < b.amount ? -1 : 1
         }
     })
-}  
+}
